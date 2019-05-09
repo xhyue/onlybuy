@@ -31,9 +31,13 @@ class Goods(models.Model):
     price = models.DecimalField('商品价格', max_digits=8, decimal_places=2)
     desc = models.CharField('描述', max_length=1000, null=True)
     promise = models.ManyToManyField(Promise)
-    goodsimg = models.ImageField("产品图", upload_to="static/img/goods", default="normal.png")
+    listimg = models.ImageField("列表页图", upload_to="list", default="normal.png")
     isDelete = models.BooleanField("是否下架", default=False)
     type = models.ForeignKey(GoodsType)
+
+
+    def get_promise(self):
+        return self.promise.title
 
     def __str__(self):
         return self.title
@@ -45,7 +49,25 @@ class GoodsDetail(models.Model):
     goods = models.ForeignKey(Goods)
 
     def __str__(self):
-        return self.goods.title+self.specifice
+        return self.specifice
+
+
+class GoodsColor(models.Model):
+    color = models.CharField("颜色", max_length=30, null=False, default="颜色")
+    goods = models.ForeignKey(Goods)
+
+    def __str__(self):
+        return self.color
+
+
+class GoodsImg(models.Model):
+    goodsimg = models.ImageField("产品图", upload_to="goods", default="normal.png")
+    goodsimgbig = models.ImageField("产品大图", upload_to="goods", default="normal.png")
+    goods = models.ForeignKey(Goods)
+
+    def __str__(self):
+        return self.goods.title
+
 
 
 class Banner(models.Model):

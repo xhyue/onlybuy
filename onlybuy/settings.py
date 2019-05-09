@@ -25,9 +25,14 @@ SECRET_KEY = 'gxjjgscsey@7a^&ou!y+wmbpnhn5jek=5dhk7mh!dwe=*!f8$2'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
-
+from corsheaders.defaults import default_headers
+CORS_ALLOW_HEADERS = default_headers + (
+'Content-Type',
+)
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_CREDENTIALS = True
 # Application definition
 
 INSTALLED_APPS = [
@@ -38,6 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'userinfo',
+    'corsheaders',
     'cart',
     'memberapp',
     'order',
@@ -45,10 +51,11 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
+    # 'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -86,7 +93,7 @@ DATABASES = {
         'USER': 'root',
         'HOST': 'localhost',
         'POST': 3306,
-        'PASSWORD': '123456',
+        'PASSWORD': 'yue666666',
     }
 }
 
@@ -109,13 +116,12 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/1.11/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'zh-Hans'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Shanghai'
 
 USE_I18N = True
 
@@ -130,4 +136,19 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'images').replace('\\', '/')
+MEDIA_URL = '/images/'
+
+
+
 AUTH_USER_MODEL = 'userinfo.UserInfo'
+
+
+EMAIL_HOST = 'smtp.163.com'   #163邮箱   # 简单邮件传送协议服务器
+EMAIL_PORT = 25
+EMAIL_HOST_USER = 'pythontarena@163.com'
+EMAIL_HOST_PASSWORD = 'python1234'
+# 由于使用25端口，一般都不使用TLS机密，SSL和TSL只需要设置一个，他们同时为True或False
+EMAIL_USE_TLS = False
+EMAIL_FROM = 'pythontarena@163.com'

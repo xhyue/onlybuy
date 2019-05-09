@@ -20,3 +20,21 @@ class Bank(models.Model):
 
     def __str__(self):
         return self.user.username
+
+
+class Banklist(models.Model):
+    bank = models.CharField("银行", max_length=100)
+    bankimg = models.ImageField("logo", upload_to="banklist", default="logo.png")
+
+    def __str__(self):
+        return self.bank
+
+
+
+
+
+
+
+
+
+
